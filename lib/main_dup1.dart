@@ -32,17 +32,17 @@ class MyApp extends StatelessWidget {
             children: [
               Expanded(
                   flex: 1,
-                  child: Image.asset('images/alarm.png')),
+                  child: Image.asset('images/img1.png')),
               Expanded(
                   flex: 2,
-                  child: Image.asset('images/door.png')),
+                  child: Image.asset('images/img2.png')),
               Expanded(
                   flex: 1,
-                  child: Image.asset('images/smart-light.png')),
+                  child: Image.asset('images/img3.png')),
               Image.asset(
-                  'images/alarm.png',width: 50,height: 50),
-              Image.asset('images/door.png',width: 50,height: 50),
-              Image.asset('images/smart-light.png',width: 50,height: 50),
+                  'images/img1.png',width: 50,height: 50),
+              Image.asset('images/img2.png',width: 50,height: 50),
+              Image.asset('images/img3.png',width: 50,height: 50),
             ],
           )
         ),

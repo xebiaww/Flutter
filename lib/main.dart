@@ -10,7 +10,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     var stars = Row(
-      mainAxisSize: MainAxisSize.min,
       children: [
         Icon(Icons.star, color: Colors.green[500]),
         Icon(Icons.star, color: Colors.green[500]),
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
 
         children: [
-         stars,
+          stars,
           SizedBox(width: 50),
           Text(
             '170 Reviews',
@@ -100,51 +99,104 @@ class MyApp extends StatelessWidget {
     );
 
 
+    // The images are saved with names pic0.jpg, pic1.jpg...pic29.jpg.
+// The List.generate() constructor allows an easy way to create
+// a list when objects have a predictable naming pattern.
+    List<Container> _buildGridTileList(int count) => List.generate(
+        count, (i) => Container(
+
+        child: Image.asset('images/img$i.png',)));
+
+
+    ListTile _tile(String title, String subtitle, Image image) => ListTile(
+      title: Text(title,
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 20,
+          )),
+      subtitle: Text(subtitle),
+      leading: image,
+    );
+
+    Widget _buildGrid() => GridView.extent(
+        maxCrossAxisExtent: 150,
+        padding: const EdgeInsets.all(4),
+        mainAxisSpacing: 3,
+        crossAxisSpacing: 3,
+        children: _buildGridTileList(11));
+
+
+    Widget _buildList() => ListView(
+      children: [
+        _tile(
+            'Uddapi Restro', 'onion wada',
+            Image.asset('images/img0.png')
+        ),
+        _tile(
+            'Sagar Ratna', 'Masala Dosa',
+            Image.asset('images/img1.png')
+        ),
+        _tile(
+            'Donut Factory', 'Illusion',
+            Image.asset('images/img2.png')
+        ),
+        _tile(
+            'Roxie Retro Bar', 'Medu Wada',
+            Image.asset('images/img3.png')
+        ),
+        _tile(
+            'Tiger Restaurant', '501 Buckingham Way',
+            Image.asset('images/img4.png')
+        ),
+        _tile(
+            'Dildona Donuts', 'lovely bites',
+            Image.asset('images/img5.png')
+        ),
+        Divider(thickness: 4,),
+        _tile('K\'s Kitchen', '757 Monterey Blvd',
+            Image.asset('images/img6.png')
+        ),
+        _tile('Emmy\'s Restaurant', '1923 Ocean Ave',
+            Image.asset('images/img7.png')
+        ),
+        _tile(
+            'Chaiya Thai Restaurant', '272 Claremont Blvd',
+            Image.asset('images/img8.png')
+        ),
+        _tile('La Ciccia', '291 30th St',
+            Image.asset('images/img9.png')
+        ),
+      ],
+    );
+
+
+
 
 
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blueGrey,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Menu Details'),
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          primarySwatch: Colors.blueGrey,
         ),
-        body: Center(
-          child:Scrollbar(
-            isAlwaysShown: true,
-          child: Container(
-            margin: EdgeInsets.fromLTRB(0, 40, 0, 30),
-
-            child: Card(
-              elevation: 10,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(child:
-                  Image.asset('images/mainimage.jpg')),
-                  Container(
-
-                    child: leftColumn,
-                  ),
-
-                ],
-              ),
-            ),
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text('Menu '),
           ),
-          )
-        ),
-      )
+          body: Center(
+
+            // child: _buildGrid(),
+            child: _buildList()
+          ),
+        )
     );
   }
 }
