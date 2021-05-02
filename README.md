@@ -2,15 +2,14 @@
 
 A new Flutter application.
 
-## Demo 3
+## Demo 4
 
 The objective of this demo is to:
-- Show items in GridView
-- Show items in ListView
+- Create a full screen scrollable view.
+- View involves Device With Image, buttons and text paragraph.
 
 #### App design ####
-![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d3_gridview_listview/screens/list.png "App design screens")
-![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d3_gridview_listview/screens/grid.png "App design screens")
+![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d4_fullscreen_layout/screens/home.png "App design screens")
 
 
 A few resources to get you started if this is your first Flutter project:
