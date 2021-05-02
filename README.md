@@ -7,8 +7,12 @@ A new Flutter application.
 This project is a starting point for a Flutter application.
 
 The objective of this demo is to:
-- Create Material Designed Toolbar
-- State is changed on click of floating action button
+- Usability of Row and Column
+- Minimise visual confusion by implementing pieces of UI in variables and functions
+
+#### App design ####
+![picture alt](https://github.com/HimanshuSharma13/Flutter/tree/feature_hs_d2_row_column/screens/home.png "App design screens")
+https://github.com/HimanshuSharma13/Flutter/tree/feature_d1_save_state
 
 A few resources to get you started if this is your first Flutter project:
 
@@ -18,3 +22,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+- [Icons made by Freepik](https://www.freepik.com)
+ -[from www.flaticon.com](https://www.flaticon.com/)
