@@ -9,8 +9,8 @@ The objective of this demo is to:
 - Show items in ListView
 
 #### App design ####
-![picture alt](https://github.com/HimanshuSharma13/Flutter/blob/feature_d3_gridview_listview/screens/list.png "App design screens")
-![picture alt](https://github.com/HimanshuSharma13/Flutter/blob/feature_d3_gridview_listview/screens/grid.png "App design screens")
+![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d3_gridview_listview/screens/list.png "App design screens")
+![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d3_gridview_listview/screens/grid.png "App design screens")
 
 
 A few resources to get you started if this is your first Flutter project:
