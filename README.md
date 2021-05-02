@@ -11,8 +11,8 @@ The objective of this demo is to:
 - Minimise visual confusion by implementing pieces of UI in variables and functions
 
 #### App design ####
-![picture alt](https://github.com/HimanshuSharma13/Flutter/tree/feature_hs_d2_row_column/screens/home.png "App design screens")
-https://github.com/HimanshuSharma13/Flutter/tree/feature_d1_save_state
+![picture alt](https://github.com/HimanshuSharma13/Flutter/blob/feature_hs_d2_row_column/screens/home.png "App design screens")
+
 
 A few resources to get you started if this is your first Flutter project:
 
