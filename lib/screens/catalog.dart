@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app/models/cart.dart';
 import 'package:flutter_app/models/catalog.dart';
 import 'package:provider/provider.dart';
+
+import 'cart.dart';
 
 
 class ECatalog extends StatelessWidget {
@@ -33,13 +37,13 @@ class _EAppBar extends StatelessWidget {
     return SliverAppBar(
       title: Text(
         'E-Catalog',
-        style: Theme.of(context).textTheme.headline1,
+        style: Theme.of(context).textTheme.headline4,
       ),
       floating: true,
       actions: [
         IconButton(
           icon: Icon(Icons.shopping_cart),
-          onPressed: () => Navigator.pushNamed(context, '/cart'),
+          onPressed: () => Navigator.pushNamed(context, ECart.redirect_to_ecart),
         )
       ],
     );
@@ -71,8 +75,13 @@ class _ElistItem extends StatelessWidget{
             child: Container(
               color: item.color,
             ),),
-          SizedBox(
-            width: 24,
+          Expanded(
+
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(30, 2, 10, 2),
+
+              child: Text(item.name,style: textTheme,),
+            ),
           ),
           _AddButton(item),
         ],

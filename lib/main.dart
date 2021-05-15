@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/catalog.dart';
+import 'package:flutter_app/screens/cart.dart';
 import 'package:flutter_app/screens/catalog.dart';
 import 'package:flutter_app/screens/login.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
             routes: {
               '/': (context) => ELogin(),
               '/catalog': (context) => ECatalog(),
-              // '/cart': (context) => Cart(),
+              ECart.redirect_to_ecart: (context) => ECart(),
             },
 
     ),
