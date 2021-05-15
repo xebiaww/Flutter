@@ -1,0 +1,112 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_app/models/cart.dart';
+import 'package:flutter_app/models/catalog.dart';
+import 'package:provider/provider.dart';
+
+
+class ECatalog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          _EAppBar(),
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 12,
+            ),
+          ),
+          SliverList(
+              delegate: SliverChildBuilderDelegate(
+                  (context, index) => _ElistItem(index)))
+        ],
+      ),
+    );
+  }
+}
+
+class _EAppBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return SliverAppBar(
+      title: Text(
+        'E-Catalog',
+        style: Theme.of(context).textTheme.headline1,
+      ),
+      floating: true,
+      actions: [
+        IconButton(
+          icon: Icon(Icons.shopping_cart),
+          onPressed: () => Navigator.pushNamed(context, '/cart'),
+        )
+      ],
+    );
+  }
+}
+
+
+class _ElistItem extends StatelessWidget{
+
+  final index;
+
+  _ElistItem(this.index);
+
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    var item = context.select<CatalogModel,Item>((catalog) => catalog.getByPosition(index));
+    var textTheme= Theme.of(context).textTheme.headline6;
+
+    return Padding(padding: EdgeInsets.all(20),
+    child: LimitedBox(
+      maxHeight: 48,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          AspectRatio(
+            aspectRatio: 1,
+            child: Container(
+              color: item.color,
+            ),),
+          SizedBox(
+            width: 24,
+          ),
+          _AddButton(item),
+        ],
+      ),
+    ),);
+  }
+
+}
+
+class _AddButton extends StatelessWidget {
+
+final Item item;
+
+_AddButton(this.item);
+
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    var isInCart = context.select<CartModel,bool>((cart) => cart.itemIds.contains(item));
+    
+    return TextButton(
+
+
+
+        onPressed: () {
+          onAddClicked(isInCart,context.read<CartModel>());
+        },
+        child: isInCart ? Icon(Icons.check, semanticLabel: 'ADDED') : Text('ADD'),);
+  }
+
+  onAddClicked(bool isInCart, CartModel cart) {
+    isInCart?cart.removeItemFromList(item) : cart.addItemInList(item);
+  }
+
+
+}
