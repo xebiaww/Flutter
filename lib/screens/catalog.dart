@@ -43,79 +43,84 @@ class _EAppBar extends StatelessWidget {
       actions: [
         IconButton(
           icon: Icon(Icons.shopping_cart),
-          onPressed: () => Navigator.pushNamed(context, ECart.redirect_to_ecart),
+          onPressed: () =>
+              Navigator.pushNamed(context, ECart.redirect_to_ecart),
         )
       ],
     );
   }
 }
 
-
-class _ElistItem extends StatelessWidget{
-
+class _ElistItem extends StatelessWidget {
   final index;
 
   _ElistItem(this.index);
 
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    var item = context.select<CatalogModel,Item>((catalog) => catalog.getByPosition(index));
-    var textTheme= Theme.of(context).textTheme.headline6;
+    var item = context
+        .select<CatalogModel, Item>((catalog) => catalog.getByPosition(index));
+    var textTheme = Theme.of(context).textTheme.headline6;
 
-    return Padding(padding: EdgeInsets.all(20),
-    child: LimitedBox(
-      maxHeight: 48,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          AspectRatio(
-            aspectRatio: 1,
-            child: Container(
-              color: item.color,
-            ),),
-          Expanded(
-
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(30, 2, 10, 2),
-
-              child: Text(item.name,style: textTheme,),
+    return Padding(
+      padding: EdgeInsets.all(20),
+      child: LimitedBox(
+        maxHeight: 48,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            AspectRatio(
+              aspectRatio: 1,
+              child: Container(
+                color: item.color,
+              ),
             ),
-          ),
-          _AddButton(item),
-        ],
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(30, 2, 10, 2),
+                child: Text(
+                  item.name,
+                  style: textTheme,
+                ),
+              ),
+            ),
+            _AddButton(item),
+          ],
+        ),
       ),
-    ),);
+    );
   }
-
 }
 
 class _AddButton extends StatelessWidget {
+  final Item item;
 
-final Item item;
-
-_AddButton(this.item);
-
+  _AddButton(this.item);
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    var isInCart = context.select<CartModel,bool>((cart) => cart.itemIds.contains(item));
-    
-    return TextButton(
+    // var isInCart =
+    //     context.select<CartModel, bool>((cart) => cart.itemIds.contains(item));
+    return Consumer<CartModel>(
+      builder: (context, cart, child) {
+        var isInCart1 = cart.itemIds.where((element) => element.id==item.id);
+        return TextButton(
+          onPressed: () {
+            var isInCart = cart.itemIds.where((element) => element.id==item.id);
+            onAddClicked(!isInCart.isEmpty, cart, item);
+          },
 
-
-
-        onPressed: () {
-          onAddClicked(isInCart,context.read<CartModel>());
-        },
-        child: isInCart ? Icon(Icons.check, semanticLabel: 'ADDED') : Text('ADD'),);
+          child: !isInCart1.isEmpty
+              ? Icon(Icons.check, semanticLabel: 'ADDED')
+              : Text('ADD'),
+        );
+      },
+    );
   }
 
-  onAddClicked(bool isInCart, CartModel cart) {
-    isInCart?cart.removeItemFromList(item) : cart.addItemInList(item);
+  onAddClicked(bool isInCart, CartModel cart,Item item) {
+    isInCart ? cart.removeItemFromList(item) : cart.addItemInList(item);
   }
-
-
 }
