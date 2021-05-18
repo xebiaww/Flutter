@@ -2,18 +2,10 @@
 
 A new Flutter application.
 
-## Demo 9
+## Demo 10
 
 
-
-The objective of this demo is to:
-- Create a login screen
-- Once logged in, show catalog having list of novels.
-- Cart icon is there on app bar to navigate to my cart
-- Add button is there to add a novel to purchase
-- Once redirected to cart, show list of novels added in cart
-- Click remove icon to remove novel from cart.
-- Removed novel should be reflected in catalog page, again having add button
+This is same as Demo 9, with little changes. Using consumer for updating widgets.
 
 **ChangeNotifer** corresponds to Observer, which notifies the listner on change.
 **ChangeNotifierProvider** provides instance of ChangeNotifier to its decendents. Placed above widget that needs to access it.
