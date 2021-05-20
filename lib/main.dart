@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_app/models/Photo.dart';
 import 'package:http/http.dart' as http;
 
 import 'models/Album.dart';
@@ -10,63 +12,26 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  MyAppWidget createState() {
-    // TODO: implement createState
-    return MyAppWidget();
-  }
-}
-
-class MyAppWidget extends State<MyApp> {
-  late Future<Album> _futureAlbum;
-  late bool deleted =false;
-
-  @override
-  void initState() {
-    super.initState();
-    _futureAlbum = fetchAlbum();
-    deleted=false;
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-      title: 'Delete Data Example',
+      title: 'Isolate Demo',
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Delete'),
+          title: Text('Isolate Demo'),
         ),
         body: Center(
-          child: FutureBuilder<Album>(
-            future: _futureAlbum,
+          child: FutureBuilder<List<Photo>>(
+            future: fetchPhoto(http.Client()),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('${snapshot.data?.title ?? 'Deleted'}'),
-                      ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              if(!deleted) {
-                                _futureAlbum =
-                                    deleteAlbum(snapshot.data?.id.toString());
-                              deleted=true;
-                              }else{
-                                _futureAlbum = fetchAlbum();
-                                deleted=false;
-                              }
-                            });
-                          },
-                          child: Text('${(snapshot.data?.id==null)? 'Call API' : 'Delete Data'}')),
-                    ],
-                  );
+                  return PhotoList(snapshot.data!);
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 }
@@ -80,27 +45,37 @@ class MyAppWidget extends State<MyApp> {
   }
 }
 
-Future<Album> fetchAlbum() async {
-  final http.Response response = await http
-      .get(Uri.parse("https://jsonplaceholder.typicode.com/albums/1"));
+class PhotoList extends StatelessWidget {
+  final List<Photo> list;
+
+  PhotoList(this.list);
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 1,
+        ),
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          return Image.network(list[index].url);
+        });
+  }
+}
+
+Future<List<Photo>> fetchPhoto(http.Client client) async {
+  final http.Response response =
+      await client.get(Uri.parse("https://jsonplaceholder.typicode.com/photos"));
   if (response.statusCode == 200) {
-    return Album.fromJson(jsonDecode(response.body));
+    return compute(parseResponse, response.body);
   } else {
     throw Exception('Failed to load Album');
   }
 }
 
-Future<Album> deleteAlbum(String? string) async {
-  final http.Response response = await http.delete(
-      Uri.parse(
-          'https://jsonplaceholder.typicode.com/albums/$string'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      });
-
-  if (response.statusCode == 200) {
-    return Album.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed to delete album');
-  }
+List<Photo> parseResponse(String responseBody) {
+  var parsedMap = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+  return parsedMap.map<Photo>((json) => Photo.fromJSON(json)).toList();
 }
