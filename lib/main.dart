@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/Photo.dart';
 import 'package:http/http.dart' as http;
 
 import 'models/Album.dart';
@@ -12,70 +10,108 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+
+
+class MyApp extends StatefulWidget {
+  @override
+  MyAppState createState() {
+    // TODO: implement createState
+    return MyAppState();
+  }
+}
+
+class MyAppState extends State<MyApp> {
+  Future<Album>? _futureAlbum;
+  final TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-      title: 'Isolate Demo',
+      title: 'POST Demo',
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Isolate Demo'),
+          title: Text('POST Demo'),
         ),
         body: Center(
-          child: FutureBuilder<List<Photo>>(
-            future: fetchPhoto(http.Client()),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  return PhotoList(snapshot.data!);
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-              }
-              return CircularProgressIndicator();
-            },
-          ),
+          child: _futureAlbum == null
+              ? AlbumForm()
+              : buildFutureAlbum(),
         ),
       ),
     );
+
   }
-}
 
-class PhotoList extends StatelessWidget {
-  final List<Photo> list;
-
-  PhotoList(this.list);
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1,
+  Column AlbumForm() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextField(
+          controller: _controller,
+          decoration: InputDecoration(hintText: 'Enter Title'),
         ),
-        itemCount: list.length,
-        itemBuilder: (context, index) {
-          return Image.network(list[index].url);
+        ElevatedButton(
+            onPressed: () =>
+            {
+            setState(() {
+            _futureAlbum = createAlbum(http.Client(), _controller.text);
+            }
+            )},
+
+
+
+            child: Text('Create Album'))
+      ],
+    );
+  }
+
+
+  buildFutureAlbum() {
+    return FutureBuilder<Album>(
+        future: _futureAlbum,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Text('Data from server: Album Name is ${snapshot.data?.title}');
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+
+          return CircularProgressIndicator();
         });
   }
+
 }
 
-Future<List<Photo>> fetchPhoto(http.Client client) async {
-  final http.Response response =
-      await client.get(Uri.parse("https://jsonplaceholder.typicode.com/photos"));
-  if (response.statusCode == 200) {
+
+Future<Album> createAlbum(http.Client client, String title) async {
+  /*final response = await client.post(
+    Uri.https('jsonplaceholder.typicode.com', 'albums'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'title': title,
+    }),
+  );*/
+  final http.Response response = await client.post(
+      Uri.parse("https://jsonplaceholder.typicode.com/albums"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'title': title,
+      }));
+  if (response.statusCode == 201) {
     return compute(parseResponse, response.body);
   } else {
     throw Exception('Failed to load Album');
   }
 }
 
-List<Photo> parseResponse(String responseBody) {
-  var parsedMap = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-  return parsedMap.map<Photo>((json) => Photo.fromJSON(json)).toList();
+Album parseResponse(String responseBody) {
+  return Album.fromJson(jsonDecode(responseBody));
 }
