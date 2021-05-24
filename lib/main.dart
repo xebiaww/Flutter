@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/helper/DBHelper.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'models/Album.dart';
 
@@ -10,108 +13,86 @@ void main() {
   runApp(MyApp());
 }
 
-
-
-class MyApp extends StatefulWidget {
-  @override
-  MyAppState createState() {
-    // TODO: implement createState
-    return MyAppState();
-  }
-}
-
-class MyAppState extends State<MyApp> {
-  Future<Album>? _futureAlbum;
-  final TextEditingController _controller = TextEditingController();
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-      title: 'POST Demo',
+      title: 'SQLite Demo',
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('POST Demo'),
+          title: Text('SQLite CRUD Demo'),
         ),
         body: Center(
-          child: _futureAlbum == null
-              ? AlbumForm()
-              : buildFutureAlbum(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                child: Text('Insert'),
+                onPressed: () {
+                  insertAlbum();
+                },
+              ),
+              ElevatedButton(
+
+                child: Text('Delete'),
+                onPressed: () {
+                  deleteAlbum();
+                },
+              ),
+              ElevatedButton(
+                child: Text('Update'),
+                onPressed: () {
+                  updateAlbum();
+                },
+              ),
+              ElevatedButton(
+                child: Text('Retrieve'),
+                onPressed: () {
+                  getAllAlbums();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
-
   }
 
-  Column AlbumForm() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        TextField(
-          controller: _controller,
-          decoration: InputDecoration(hintText: 'Enter Title'),
-        ),
-        ElevatedButton(
-            onPressed: () =>
-            {
-            setState(() {
-            _futureAlbum = createAlbum(http.Client(), _controller.text);
-            }
-            )},
-
-
-
-            child: Text('Create Album'))
-      ],
+  Future insertAlbum() async {
+    var linkin = Album(
+      id: 0,
+      title: 'Linkin',
+      noOfSongs: 5,
     );
+
+    int result = await DBHelper.instance.insertAlbum(linkin);
+    print('Result Insert-> Row inserted with ID: $result');
+
   }
 
 
-  buildFutureAlbum() {
-    return FutureBuilder<Album>(
-        future: _futureAlbum,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Text('Data from server: Album Name is ${snapshot.data?.title}');
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
 
-          return CircularProgressIndicator();
-        });
+  deleteAlbum() async {
+    int result = await DBHelper.instance.deleteAlbum(0);
+    print('Result Delete-->  $result rows affected');
+
   }
 
-}
-
-
-Future<Album> createAlbum(http.Client client, String title) async {
-  /*final response = await client.post(
-    Uri.https('jsonplaceholder.typicode.com', 'albums'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'title': title,
-    }),
-  );*/
-  final http.Response response = await client.post(
-      Uri.parse("https://jsonplaceholder.typicode.com/albums"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'title': title,
-      }));
-  if (response.statusCode == 201) {
-    return compute(parseResponse, response.body);
-  } else {
-    throw Exception('Failed to load Album');
+  updateAlbum() async{
+    Album album=Album(id: 0, title: 'UpdatedTitle', noOfSongs: 23);
+    int result=await DBHelper.instance.updateAlbum(album);
+    print('Result Update-->  $result rows affected');
   }
-}
 
-Album parseResponse(String responseBody) {
-  return Album.fromJson(jsonDecode(responseBody));
+  void getAllAlbums() async {
+   List list= await DBHelper.instance.getAlbums();
+   print('Retrieving all albums');
+   list.forEach((element) {
+     print('Album--> $element');
+   });
+  }
 }

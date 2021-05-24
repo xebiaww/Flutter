@@ -2,26 +2,26 @@
 
 A new Flutter application.
 
-## Demo 13
+## Demo 14
 
 
-The objective of this demo is call an API to **POST** data to server.
+The objective of this demo is to persist data with SQLite
 
-Contents
-1. Add the http package
-2. Sending data to server
-3. Convert the http.Response to a custom Dart object
-   -Create an Album class
-   -Convert the http.Response to an Album
-4. Get a title from user input
-5. Display the response on screen
+1. Add the **SQFlite** dependencies
+2. Define the Album data model
+3. Open the database
+4. Create the MyAlbum table
+5. _Insert_ an Album into the database
+6. _Retrieve_ the list of Albums
+7. _Update_ an Album in the database
+8. _Delete_ an Album from the database
 
 
 
 
 #### App design ####
-![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d13_post_data_server/screens/home1.png "App design screens")
-![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d13_post_data_server/screens/home2.png "App design screens")
+![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d14_sqlite/screens/home1.png "App design screens")
+![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d14_sqlite/screens/home2.png "App design screens")
 
 
 A few resources to get you started if this is your first Flutter project:
