@@ -53,7 +53,7 @@ class DBHelper {
 
   Future<int> insertAlbum(Album album) async {
     Database? db = await instance.database;
-    int future = await db!.insert(table, album.toMap());
+    int future = await db!.insert(table, album.toJSON());
 
     return future;
   }
@@ -72,7 +72,7 @@ class DBHelper {
   Future<int> updateAlbum(Album album) async {
     Database? db = await instance.database;
     return await db!.update(
-        table, album.toMap(), where: '$columnId = ?', whereArgs: [album.id]);
+        table, album.toJSON(), where: '$columnId = ?', whereArgs: [album.id]);
   }
 
   Future<List<Map<String,dynamic>>> getAlbums() async{

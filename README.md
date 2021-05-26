@@ -2,19 +2,13 @@
 
 A new Flutter application.
 
-## Demo 14
+## Demo 15
 
 
-The objective of this demo is to persist data with SQLite
+The objective of this demo is to **Serialize JSON** using code generation libraries
 
-1. Add the **SQFlite** dependencies
-2. Define the Album data model
-3. Open the database
-4. Create the MyAlbum table
-5. _Insert_ an Album into the database
-6. _Retrieve_ the list of Albums
-7. _Update_ an Album in the database
-8. _Delete_ an Album from the database
+* Setting up _json_serializable_ in a project.
+* Creating model classes the json_serializable way.
 
 
 
