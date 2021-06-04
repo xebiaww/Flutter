@@ -64,9 +64,9 @@ class MyApp extends StatelessWidget {
 
   Future insertAlbum() async {
     var linkin = Album(
-      id: 0,
-      title: 'Linkin',
-      noOfSongs: 5,
+      0,
+      'Linkin',
+      5,
     );
 
     int result = await DBHelper.instance.insertAlbum(linkin);
@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
   }
 
   updateAlbum() async{
-    Album album=Album(id: 0, title: 'UpdatedTitle', noOfSongs: 23);
+    Album album=Album(0,'UpdatedTitle',23);
     int result=await DBHelper.instance.updateAlbum(album);
     print('Result Update-->  $result rows affected');
   }
