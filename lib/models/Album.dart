@@ -10,7 +10,9 @@ part 'Album.g.dart';
 class Album {
   @JsonKey(name: '_id')
   final int? id;
+  @JsonKey(name: 'name')
   final String? title;
+  @JsonKey(name: 'songscount')
   final int noOfSongs;
 
   Album(this.id, this.title, this.noOfSongs);
@@ -22,9 +24,9 @@ class Album {
 
   /*Serializing JSON using code generation library*/
 
-factory Album.fromJSON(Map<String,dynamic> json) => _$AlbumFromJSON(json);
+factory Album.fromJSON(Map<String,dynamic> json) => _$AlbumFromJson(json);
 
-Map<String,dynamic> toJSON() => _$AlbumToJSON(this);
+Map<String,dynamic> toJSON() => _$AlbumToJson(this);
 
 
 

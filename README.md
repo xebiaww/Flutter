@@ -9,7 +9,8 @@ The objective of this demo is to **Serialize JSON** using code generation librar
 
 * Setting up _json_serializable_ in a project.
 * Creating model classes the json_serializable way.
-
+* File Automatically generated has name as as of model file, here Album.g.dart
+* Use _flutter pub run build_runner build_ to rebuild auto generated file.
 
 
 
