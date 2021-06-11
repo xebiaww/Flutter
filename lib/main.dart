@@ -1,11 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/helper/DBHelper.dart';
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 import 'models/Album.dart';
 
@@ -14,85 +13,108 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  final descTextStyle = TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.w800,
+    fontFamily: 'Roboto',
+    letterSpacing: 0.5,
+    fontSize: 18,
+    height: 2,
+  );
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
-      title: 'SQLite Demo',
+      title: 'Native Platform Demo',
       theme: ThemeData(
-        primarySwatch: Colors.pink,
+        primarySwatch: Colors.blue,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('SQLite CRUD Demo'),
+          title: Text('Native Platform View Demo'),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                child: Text('Insert'),
-                onPressed: () {
-                  insertAlbum();
-                },
-              ),
-              ElevatedButton(
+        body: Container(
+          alignment: Alignment.center,
+          child: DefaultTextStyle(
 
-                child: Text('Delete'),
-                onPressed: () {
-                  deleteAlbum();
-                },
-              ),
-              ElevatedButton(
-                child: Text('Update'),
-                onPressed: () {
-                  updateAlbum();
-                },
-              ),
-              ElevatedButton(
-                child: Text('Retrieve'),
-                onPressed: () {
-                  getAllAlbums();
-                },
-              ),
-            ],
+            style: descTextStyle,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Display Native Button'),
+                Container(
+                  width: 300,
+                  height: 100,
+                  margin: EdgeInsets.all(30),
+                  child: NativeButton(),
+                )
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+}
 
-  Future insertAlbum() async {
-    var linkin = Album(
-      0,
-      'Linkin',
-      5,
+class NativeButton extends StatelessWidget {
+  @override
+  // Widget build(BuildContext context) {
+  //   // This is used in the platform side to register the view.
+  //   final String viewType = '<platform-view-type>';
+  //   // Pass parameters to the platform side.
+  //   final Map<String, dynamic> creationParams = <String, dynamic>{};
+  //   // TODO: implement build
+  //   return PlatformViewLink(
+  //     onCreatePlatformView: (PlatformViewCreationParams params) {
+  //       return PlatformViewsService.initSurfaceAndroidView(
+  //           id: params.id,
+  //           viewType: viewType,
+  //           creationParams: creationParams,
+  //           creationParamsCodec: StandardMessageCodec(),
+  //           layoutDirection: TextDirection.ltr)
+  //         ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
+  //         ..create();
+  //     },
+  //     viewType: viewType,
+  //     surfaceFactory:
+  //         (BuildContext context, PlatformViewController controller) {
+  //       return AndroidViewSurface(
+  //           controller: controller as AndroidViewController,
+  //           hitTestBehavior: PlatformViewHitTestBehavior.opaque,
+  //           gestureRecognizers: const <
+  //               Factory<OneSequenceGestureRecognizer>>{});
+  //     },
+  //   );
+  // }
+
+  Widget build(BuildContext context) {
+    // This is used in the platform side to register the view.
+    final String viewType = '<platform-view-type>';
+    // Pass parameters to the platform side.
+    final Map<String, dynamic> creationParams = <String, dynamic>{};
+
+    return PlatformViewLink(
+      viewType: viewType,
+      surfaceFactory:
+          (BuildContext context, PlatformViewController controller) {
+        return AndroidViewSurface(
+          controller: controller as AndroidViewController,
+          gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
+          hitTestBehavior: PlatformViewHitTestBehavior.opaque,
+        );
+      },
+      onCreatePlatformView: (PlatformViewCreationParams params) {
+        return PlatformViewsService.initSurfaceAndroidView(
+          id: params.id,
+          viewType: viewType,
+          layoutDirection: TextDirection.ltr,
+          creationParams: creationParams,
+          creationParamsCodec: StandardMessageCodec(),
+        )
+          ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
+          ..create();
+      },
     );
-
-    int result = await DBHelper.instance.insertAlbum(linkin);
-    print('Result Insert-> Row inserted with ID: $result');
-
-  }
-
-
-
-  deleteAlbum() async {
-    int result = await DBHelper.instance.deleteAlbum(0);
-    print('Result Delete-->  $result rows affected');
-
-  }
-
-  updateAlbum() async{
-    Album album=Album(0,'UpdatedTitle',23);
-    int result=await DBHelper.instance.updateAlbum(album);
-    print('Result Update-->  $result rows affected');
-  }
-
-  void getAllAlbums() async {
-   List list= await DBHelper.instance.getAlbums();
-   print('Retrieving all albums');
-   list.forEach((element) {
-     print('Album--> $element');
-   });
   }
 }
