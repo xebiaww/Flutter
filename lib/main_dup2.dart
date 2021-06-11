@@ -116,7 +116,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blueGrey,
       ),
-      home: Scaffold(
+       home: Scaffold(
         appBar: AppBar(
           title: Text('Menu Details'),
         ),

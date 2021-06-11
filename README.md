@@ -2,21 +2,17 @@
 
 A new Flutter application.
 
-## Demo 15
+## Demo 16
 
+Platform views allow to embed native views in a Flutter app
+The objective of this demo is to To create a platform view on Android.
 
-The objective of this demo is to **Serialize JSON** using code generation libraries
-
-* Setting up _json_serializable_ in a project.
-* Creating model classes the json_serializable way.
-* File Automatically generated has name as as of model file, here Album.g.dart
-* Use _flutter pub run build_runner build_ to rebuild auto generated file.
-
-
+Flutter supports two modes:
+ **Virtual displays**, and 
+ **Hybrid composition**.
 
 #### App design ####
-![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d14_sqlite/screens/home1.png "App design screens")
-![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d14_sqlite/screens/home2.png "App design screens")
+![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d14_sqlite/screens/home.png "App design screens")
 
 
 A few resources to get you started if this is your first Flutter project:
