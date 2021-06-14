@@ -14,7 +14,7 @@ Running the same demo on chrome using below commands:
 #### App design ####
 ![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d17_web_redirect/screens/home1.png "App design screens")
 ![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d17_web_redirect/screens/home2.png "App design screens")
-![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d17_web_redirect/screens/home3.png "App design screens")
+![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d17_web_redirect/screens/home3.PNG "App design screens")
 
 
 A few resources to get you started if this is your first Flutter project:
