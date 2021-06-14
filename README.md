@@ -5,8 +5,9 @@ A new Flutter application.
 ## Demo 17
 
 Create a launch button. On click of it redirect to flutter site.
-Running the same demo on chrome using below command:
- **flutter run -d chrome**
+Running the same demo on chrome using below commands:
+- **flutter create .** : It will create a web package in root
+- **flutter run -d chrome** : Run the project on localhost
 
 
 
