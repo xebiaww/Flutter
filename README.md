@@ -2,19 +2,20 @@
 
 A new Flutter application.
 
-## Demo 17
+## Demo 18
 
-Create a launch button. On click of it redirect to flutter site.
-Running the same demo on chrome using below commands:
-- **flutter create .** : It will create a web package in root
-- **flutter run -d chrome** : Run the project on localhost
+The objective of this demo is to get te battery level using platform specific code. The steps involve:
 
+1) Create flutter platform client - Use _MethodChannel_ to send messages.
+2) On Platform MethodChannel (Android) & Flutter MethodChannel (iOS) for receiving message and return result.
+3) For Android :
+Inside configureFlutterEngine() method, create a MethodChannel and call setMethodCallHandler()
+4) Call the corresponding method and return result from native platform.
 
+We are getting the Android Battery level in this demo.
 
 #### App design ####
-![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d17_web_redirect/screens/home1.png "App design screens")
-![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d17_web_redirect/screens/home2.png "App design screens")
-![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d17_web_redirect/screens/home3.PNG "App design screens")
+![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d18_battery_level_platform/screens/home1.png "App design screens")
 
 
 A few resources to get you started if this is your first Flutter project:
