@@ -2,17 +2,19 @@
 
 A new Flutter application.
 
-## Demo 16
+## Demo 17
 
-Platform views allow to embed native views in a Flutter app
-The objective of this demo is to To create a platform view on Android.
+Create a launch button. On click of it redirect to flutter site.
+Running the same demo on chrome using below commands:
+- **flutter create .** : It will create a web package in root
+- **flutter run -d chrome** : Run the project on localhost
 
-Flutter supports two modes:
- **Virtual displays**, and 
- **Hybrid composition**.
+
 
 #### App design ####
-![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d16_platform_views/screens/home.png "App design screens")
+![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d17_web_redirect/screens/home1.png "App design screens")
+![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d17_web_redirect/screens/home2.png "App design screens")
+![picture alt](https://raw.githubusercontent.com/HimanshuSharma13/Flutter/feature_d17_web_redirect/screens/home3.PNG "App design screens")
 
 
 A few resources to get you started if this is your first Flutter project:
